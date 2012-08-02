@@ -29,7 +29,7 @@ class Job
 	{
 		$responce = '';
 		 
-		for ($i=1; $i < 10; $i++) {
+		for ($i=1; $i < 100; $i++) {
 			echo \Cli::color('Cycle '.$i, 'green')."\n";
 			self::scan_job();
 			echo "\n";
@@ -73,7 +73,6 @@ class Job
 	 */
 	private static function scan_job()
 	{
-
 		$job = \Job\Model\Model_JobSchedule::find()
 						->where('server_id', self::$server_id)
 						->where('status_id', NULL)
