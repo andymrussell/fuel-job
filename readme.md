@@ -14,9 +14,9 @@ It allows you to schedule tasks to be copleted systematically via a cron job.
 * Add job to the list of packages to load in the config
 * Create the file "/fuel/tasks/job.php" and extend the \Job\Task\Job class.
 
-<?php
-namespace Fuel\Tasks;
-class Job extends \Job\Tasks\Job{}
+	<?php
+	namespace Fuel\Tasks;
+	class Job extends \Job\Tasks\Job{}
 
 
 _________________
