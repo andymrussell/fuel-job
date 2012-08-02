@@ -1,6 +1,6 @@
 <?php
 
-namespace Pump\Model;
+namespace Job\Model;
 
 class Model_JobSchedule extends \Orm\Model
 {

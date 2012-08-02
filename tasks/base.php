@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Pump\Tasks;
+namespace Job\Tasks;
 
 
 class Base
@@ -39,7 +39,7 @@ class Base
 	{
 		if(isset(static::$api_name))
 		{
-			$api = \Pump\Model\Model_JobScheduleStatus::find()->where('api_name', strtoupper(static::$api_name))->get_one();
+			$api = \Job\Model\Model_JobScheduleStatus::find()->where('api_name', strtoupper(static::$api_name))->get_one();
 			if(isset($api->id) && (int) $api->id >0)
 			{
 				static::$api_id = $api->id;
@@ -89,11 +89,11 @@ class Base
 
 		if(isset(self::$errors[$key]))
 		{
-			throw new \Pump\Tasks\Scan_Exception (self::$errors[$key].' ('.$value.')');
+			throw new \Job\Tasks\Scan_Exception (self::$errors[$key].' ('.$value.')');
 		}
 		else
 		{
-			throw new \Pump\Tasks\Scan_Exception (self::$errors['DEFAULT']);
+			throw new \Job\Tasks\Scan_Exception (self::$errors['DEFAULT']);
 		}
 	}
 
@@ -112,7 +112,7 @@ class Base
 	{
 		if(static::$counter_on)
 		{
-			$status = \Pump\Model\Model_JobScheduleStatus::find()
+			$status = \Job\Model\Model_JobScheduleStatus::find()
 							->where('api_name', strtoupper(static::$api_name))
 							->get_one();
 
@@ -142,7 +142,7 @@ class Base
 
 	public static function check_apis_left()
 	{
-		$status = \Pump\Model\Model_JobScheduleStatus::find()
+		$status = \Job\Model\Model_JobScheduleStatus::find()
 							->where('api_name', strtoupper(static::$api_name))
 							->get_one();
 		
@@ -159,7 +159,7 @@ class Base
 
 		echo "Set jobID: ".$job_id." to status({$error_num} - {$status})\n";
 
-		$entry = \Pump\Model\Model_JobSchedule::find($job_id);
+		$entry = \Job\Model\Model_JobSchedule::find($job_id);
 		$entry->status_id = $error_num;
 		$entry->memory_usage = memory_get_peak_usage();
 		

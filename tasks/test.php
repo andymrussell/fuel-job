@@ -1,10 +1,10 @@
 <?php
 /**
  * Test task to make sure jobs are running OK!
- * oil r job:create "Pump\Tasks\Test"
+ * oil r job:create "Job\Tasks\Test"
  */
 
-namespace Pump\Tasks;
+namespace Job\Tasks;
 
 class test extends Base
 {

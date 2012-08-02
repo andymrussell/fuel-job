@@ -1,6 +1,6 @@
 <?php
 
-namespace Pump\Tasks;
+namespace Job\Tasks;
 
 
 class Scan_Exception extends \Oil\Exception {}
@@ -50,7 +50,7 @@ class Job
 
 		if(!isset($split[0]))
 		{
-			throw new \Pump\Tasks\Scan_Exception (self::$errors['CLASS_DOESNT_EXIST']);
+			throw new \Job\Tasks\Scan_Exception (self::$errors['CLASS_DOESNT_EXIST']);
 		}
 
 		if(!isset($split[1]))
@@ -58,7 +58,7 @@ class Job
 			$split[1] = 'create_jobs';
 		}
 
-		$new = new \Pump\Model\Model_JobSchedule();
+		$new = new \Job\Model\Model_JobSchedule();
 		$new->cmd = trim($split[0]);
 		$new->data = json_encode(array(
 			'method'		=> trim($split[1]),
@@ -74,7 +74,7 @@ class Job
 	private static function scan_job()
 	{
 
-		$job = \Pump\Model\Model_JobSchedule::find()
+		$job = \Job\Model\Model_JobSchedule::find()
 						->where('server_id', self::$server_id)
 						->where('status_id', NULL)
 						->order_by('created_at', 'desc')
@@ -88,7 +88,7 @@ class Job
 
 				//Check if the Tasks Class exists / If not then return message here
 				if (!class_exists($job_class))
-					throw new \Pump\Tasks\Scan_Exception (self::$errors['CLASS_DOESNT_EXIST'].' ('.$job_class.')');
+					throw new \Job\Tasks\Scan_Exception (self::$errors['CLASS_DOESNT_EXIST'].' ('.$job_class.')');
 
 				//Load the Jobs Class and pass in the JOB ID and DATA
 				$c = new $job_class(self::$job_id);
@@ -97,12 +97,12 @@ class Job
 			else
 			{
 				self::$job_id = null;
-				throw new \Pump\Tasks\Scan_Exception (self::$errors['JOB_NOT_FOUND']);
+				throw new \Job\Tasks\Scan_Exception (self::$errors['JOB_NOT_FOUND']);
 			}
 
 
 		}
-		catch (\Pump\Tasks\Scan_Exception $e)
+		catch (\Job\Tasks\Scan_Exception $e)
 		{
 			$msg = $e->getMessage();
 			\Log::error($msg);
@@ -126,7 +126,7 @@ class Job
 
 			echo "Set jobID: ".$job_id." to status({$error_num} - {$status})\n";
 
-			$entry = \Pump\Model\Model_JobSchedule::find($job_id);
+			$entry = \Job\Model\Model_JobSchedule::find($job_id);
 			$entry->status_id = $error_num;
 			$entry->memory_usage = memory_get_peak_usage();
 			
